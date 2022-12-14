@@ -16,4 +16,11 @@ class BookViewModel:ObservableObject{
         self.books = DataService.getLocalData()
     }
     
+     func changeRating(id:Int, rating:Int){
+        if let index = books.firstIndex(where: { $0.id == id }){
+            books[index].rating = rating
+        }
+    }
+    
+    
 }

@@ -14,46 +14,34 @@ struct BookDetails: View {
     @State var favourite = 0
     @State var img = "star"
     
-  
-    
     var body: some View {
         
         
         NavigationView{
             VStack{
                 Text(book.title)
-                    
+                
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.trailing, 200.0)
                 
-               
-                    
-                    VStack{
-                        Text("Read Now!")
-                        NavigationLink(destination: {BookPagesView(book: book)}, label: { Image(book.image!)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width:800, height: 300, alignment: .center)
-                            
-                        })
+                VStack{
+                    Text("Read Now!")
+                    NavigationLink(destination: {BookPagesView(book: book)}, label: { Image(book.image!)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width:800, height: 300, alignment: .center)
                         
-                        
-                        
-                        
-                    }
-                    .padding(.top,30)
-                    
-                    
+                    })
+
+                }
+                .padding(.top,30)
                 
+                Text("Mark for later!")
+                    .padding()
+                    .bold()
+                    .font(.callout)
                 
-                
-                    
-                    Text("Mark for later!")
-                        .padding()
-                        .bold()
-                        .font(.callout)
-                        
                 Button(action: {
                     print ("Something")
                     if favourite == 2 {
@@ -70,16 +58,11 @@ struct BookDetails: View {
                 })
                 .foregroundColor(Color.yellow)
                 .padding(.bottom, 50.0)
-                            
-                
-                
-                        
-                       
                 
                 Text("Rate \(book.title)")
                     .font(.callout)
                     .bold()
-                    
+                
                 Picker("Rate Amazing Words", selection: $rating, content: {
                     Text("1").tag(1)
                     Text("2").tag(2)
@@ -91,7 +74,15 @@ struct BookDetails: View {
                 .padding()
                 .padding(.bottom,50)
             }
+            
         }
+        .onChange(of: rating, perform: {value in
+        
+            model.changeRating(id: book.id, rating: value)
+            
+
+        })
+
     }
 }
 
